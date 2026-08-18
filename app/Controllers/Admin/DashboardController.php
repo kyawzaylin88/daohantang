@@ -36,7 +36,7 @@ class DashboardController extends Controller
             'stats'        => $stats,
             'enrollments'  => $enrollments,
             'progressData' => $progressData,
-        ]);
+        ], 'admin');
     }
 
     private function buildProgressReport(): array

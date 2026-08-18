@@ -33,7 +33,7 @@ class LessonItemController extends Controller
             'course' => $course,
             'lesson' => $lesson,
             'item'   => null,
-        ]);
+        ], 'admin');
     }
 
     public function create(): void
@@ -74,7 +74,7 @@ class LessonItemController extends Controller
             'lesson'  => $lesson,
             'item'    => $item,
             'quizzes' => $quizzes,
-        ]);
+        ], 'admin');
     }
 
     public function update(): void

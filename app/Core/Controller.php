@@ -6,7 +6,7 @@ namespace App\Core;
 
 class Controller
 {
-    protected function view(string $view, array $data = []): void
+    protected function view(string $view, array $data = [], string $layout = 'default'): void
     {
         extract($data);
         $appConfig = require dirname(__DIR__, 2) . '/config/app.php';
@@ -20,9 +20,16 @@ class Controller
             die("View not found: {$view}");
         }
 
-        require dirname(__DIR__) . '/Views/layouts/header.php';
-        require $viewPath;
-        require dirname(__DIR__) . '/Views/layouts/footer.php';
+        if ($layout === 'admin') {
+            $content = function () use ($viewPath) {
+                require $viewPath;
+            };
+            require dirname(__DIR__) . '/Views/layouts/admin.php';
+        } else {
+            require dirname(__DIR__) . '/Views/layouts/header.php';
+            require $viewPath;
+            require dirname(__DIR__) . '/Views/layouts/footer.php';
+        }
     }
 
     protected function json(array $data, int $status = 200): void

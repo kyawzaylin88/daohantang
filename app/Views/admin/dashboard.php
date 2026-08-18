@@ -1,87 +1,123 @@
-<h2 class="mb-4"><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h2>
+<?php
+$pendingEnrollments = array_filter($enrollments, fn($e) => $e['status'] === 'pending');
+?>
 
-<div class="row g-3 mb-4">
-    <div class="col-md-4">
-        <div class="card text-center shadow-sm">
-            <div class="card-body">
-                <i class="fas fa-users fa-2x text-primary mb-2"></i>
-                <h3><?= $stats['users'] ?></h3>
-                <p class="text-muted mb-0">Students</p>
-            </div>
+<!-- Stat Cards -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
+
+    <a href="<?= app_url('admin/users') ?>" class="admin-stat-card" style="text-decoration:none;">
+        <div class="admin-stat-icon blue"><i class="fas fa-users"></i></div>
+        <div>
+            <div class="admin-stat-value"><?= (int) $stats['users'] ?></div>
+            <div class="admin-stat-label">Total Students</div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-center shadow-sm">
-            <div class="card-body">
-                <i class="fas fa-book fa-2x text-success mb-2"></i>
-                <h3><?= $stats['courses'] ?></h3>
-                <p class="text-muted mb-0">Courses</p>
-            </div>
+    </a>
+
+    <a href="<?= app_url('admin/courses') ?>" class="admin-stat-card" style="text-decoration:none;">
+        <div class="admin-stat-icon red"><i class="fas fa-book-open"></i></div>
+        <div>
+            <div class="admin-stat-value"><?= (int) $stats['courses'] ?></div>
+            <div class="admin-stat-label">Active Courses</div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-center shadow-sm">
-            <div class="card-body">
-                <i class="fas fa-clock fa-2x text-warning mb-2"></i>
-                <h3><?= $stats['pending'] ?></h3>
-                <p class="text-muted mb-0">Pending Requests</p>
-            </div>
+    </a>
+
+    <a href="<?= app_url('admin/users') ?>" class="admin-stat-card" style="text-decoration:none;">
+        <div class="admin-stat-icon amber"><i class="fas fa-clock"></i></div>
+        <div>
+            <div class="admin-stat-value"><?= (int) $stats['pending'] ?></div>
+            <div class="admin-stat-label">Pending Requests</div>
         </div>
-    </div>
+    </a>
+
 </div>
 
-<div class="row g-4">
-    <div class="col-lg-6">
-        <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between">
-                <span><i class="fas fa-user-check me-2"></i>Access Requests</span>
-                <a href="<?= app_url('admin/users') ?>" class="btn btn-sm btn-outline-primary">Manage All</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-sm mb-0">
-                    <thead><tr><th>User</th><th>Course</th><th>Status</th></tr></thead>
-                    <tbody>
-                    <?php foreach (array_slice($enrollments, 0, 8) as $e): ?>
+<!-- Two-column grid -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+
+    <!-- Enrollment Requests -->
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <span><i class="fas fa-user-check" style="color:#c41e3a;margin-right:8px;"></i>Access Requests</span>
+            <a href="<?= app_url('admin/users') ?>" class="admin-btn admin-btn-outline admin-btn-sm">Manage All</a>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="admin-table">
+                <thead>
                     <tr>
-                        <td><?= e($e['user_name']) ?></td>
-                        <td><?= e($e['course_title']) ?></td>
-                        <td><span class="badge bg-<?= $e['status'] === 'approved' ? 'success' : ($e['status'] === 'pending' ? 'warning text-dark' : 'danger') ?>"><?= e($e['status']) ?></span></td>
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Status</th>
                     </tr>
-                    <?php endforeach; ?>
-                    <?php if (empty($enrollments)): ?>
-                    <tr><td colspan="3" class="text-muted text-center">No enrollments yet</td></tr>
-                    <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+                </thead>
+                <tbody>
+                <?php foreach (array_slice($enrollments, 0, 8) as $e): ?>
+                <tr>
+                    <td><?= e($e['user_name']) ?></td>
+                    <td style="color:#64748b;font-size:12px;"><?= e($e['course_title']) ?></td>
+                    <td>
+                        <span class="admin-badge <?= e($e['status']) ?>">
+                            <?= e($e['status']) ?>
+                        </span>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+                <?php if (empty($enrollments)): ?>
+                <tr><td colspan="3"><div class="admin-empty"><i class="fas fa-inbox"></i>No enrollment requests yet</div></td></tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div class="col-lg-6">
-        <div class="card shadow-sm">
-            <div class="card-header"><i class="fas fa-chart-line me-2"></i>Student Progress</div>
-            <div class="table-responsive">
-                <table class="table table-sm mb-0">
-                    <thead><tr><th>Student</th><th>Course</th><th>Current</th></tr></thead>
-                    <tbody>
-                    <?php foreach ($progressData as $p): ?>
+    <!-- Student Progress -->
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <span><i class="fas fa-chart-line" style="color:#2563eb;margin-right:8px;"></i>Student Progress</span>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="admin-table">
+                <thead>
                     <tr>
-                        <td><?= e($p['user_name']) ?></td>
-                        <td><?= e($p['course_title']) ?></td>
-                        <td><?= e($p['current']) ?></td>
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Current</th>
                     </tr>
-                    <?php endforeach; ?>
-                    <?php if (empty($progressData)): ?>
-                    <tr><td colspan="3" class="text-muted text-center">No progress data yet</td></tr>
-                    <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+                </thead>
+                <tbody>
+                <?php foreach ($progressData as $p): ?>
+                <tr>
+                    <td><?= e($p['user_name']) ?></td>
+                    <td style="color:#64748b;font-size:12px;"><?= e($p['course_title']) ?></td>
+                    <td>
+                        <?php if ($p['current'] === 'Completed'): ?>
+                            <span class="admin-badge approved"><i class="fas fa-check"></i> Completed</span>
+                        <?php else: ?>
+                            <span style="font-size:12px;color:#374151;"><?= e($p['current']) ?></span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+                <?php if (empty($progressData)): ?>
+                <tr><td colspan="3"><div class="admin-empty"><i class="fas fa-chart-bar"></i>No progress data yet</div></td></tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
+
 </div>
 
-<div class="mt-4">
-    <a href="<?= app_url('admin/courses') ?>" class="btn btn-primary me-2"><i class="fas fa-book me-1"></i>Manage Courses</a>
-    <a href="<?= app_url('admin/users') ?>" class="btn btn-outline-primary"><i class="fas fa-users me-1"></i>Manage Users</a>
+<!-- Quick Actions -->
+<div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+    <a href="<?= app_url('admin/courses') ?>" class="admin-btn admin-btn-primary">
+        <i class="fas fa-book-open"></i> Manage Courses
+    </a>
+    <a href="<?= app_url('admin/users') ?>" class="admin-btn admin-btn-outline">
+        <i class="fas fa-users"></i> Manage Users
+    </a>
+    <?php if ((int)$stats['pending'] > 0): ?>
+    <a href="<?= app_url('admin/users') ?>" class="admin-btn" style="background:#fef9c3;color:#854d0e;border:1px solid #fde68a;">
+        <i class="fas fa-bell"></i> <?= (int)$stats['pending'] ?> Pending Approval
+    </a>
+    <?php endif; ?>
 </div>

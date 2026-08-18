@@ -32,7 +32,7 @@ class LessonController extends Controller
         $this->view('admin.lessons.index', [
             'course'  => $course,
             'lessons' => $lessons,
-        ]);
+        ], 'admin');
     }
 
     public function createForm(): void
@@ -48,7 +48,7 @@ class LessonController extends Controller
         $this->view('admin.lessons.form', [
             'course' => $course,
             'lesson' => null,
-        ]);
+        ], 'admin');
     }
 
     public function create(): void
@@ -82,7 +82,7 @@ class LessonController extends Controller
         $this->view('admin.lessons.form', [
             'course' => $course,
             'lesson' => $lesson,
-        ]);
+        ], 'admin');
     }
 
     public function update(): void
@@ -147,7 +147,7 @@ class LessonController extends Controller
             'course' => $course,
             'lesson' => $lesson,
             'items'  => $items,
-        ]);
+        ], 'admin');
     }
 
     private function extractLessonData(): ?array

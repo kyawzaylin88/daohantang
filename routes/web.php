@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Controllers\Admin\AiQuizController;
 use App\Controllers\Admin\CourseController as AdminCourseController;
 use App\Controllers\Admin\DashboardController;
 use App\Controllers\Admin\LessonController as AdminLessonController;
@@ -54,5 +55,8 @@ $router->post('/admin/items/create', [LessonItemController::class, 'create']);
 $router->get('/admin/items/edit', [LessonItemController::class, 'editForm']);
 $router->post('/admin/items/update', [LessonItemController::class, 'update']);
 $router->post('/admin/items/delete', [LessonItemController::class, 'delete']);
+
+// AI Quiz Generator route
+$router->post('/admin/ai/generate-quiz', [AiQuizController::class, 'generate']);
 
 return $router;

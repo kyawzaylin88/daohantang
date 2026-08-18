@@ -17,12 +17,12 @@ class CourseController extends Controller
 
     public function index(): void
     {
-        $this->view('admin.courses.index', ['courses' => Course::all()]);
+        $this->view('admin.courses.index', ['courses' => Course::all()], 'admin');
     }
 
     public function createForm(): void
     {
-        $this->view('admin.courses.form', ['course' => null]);
+        $this->view('admin.courses.form', ['course' => null], 'admin');
     }
 
     public function create(): void
@@ -52,7 +52,7 @@ class CourseController extends Controller
             redirect('admin/courses');
         }
 
-        $this->view('admin.courses.form', ['course' => $course]);
+        $this->view('admin.courses.form', ['course' => $course], 'admin');
     }
 
     public function update(): void

@@ -24,7 +24,7 @@ class UserController extends Controller
         $this->view('admin.users.index', [
             'users'       => $users,
             'enrollments' => $enrollments,
-        ]);
+        ], 'admin');
     }
 
     public function updateEnrollment(): void
