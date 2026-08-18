@@ -1,0 +1,62 @@
+:root {
+    --primary-color: #c41e3a;
+    --primary-dark: #9a1830;
+}
+
+.bg-primary { background-color: var(--primary-color) !important; }
+.btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+.btn-primary:hover { background-color: var(--primary-dark); border-color: var(--primary-dark); }
+.text-primary { color: var(--primary-color) !important; }
+.navbar-dark.bg-primary { background-color: var(--primary-color) !important; }
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color), #e85d04);
+    height: 180px;
+}
+
+.course-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+}
+
+.lesson-sidebar .list-group-item.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.locked-lesson {
+    background-color: #f8f9fa;
+    opacity: 0.85;
+}
+
+.step-dot {
+    width: 14px;
+    height: 14px;
+}
+
+.video-container {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.quiz-question {
+    background-color: #fafafa;
+}
+
+.hero-section {
+    border: 1px solid #eee;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
